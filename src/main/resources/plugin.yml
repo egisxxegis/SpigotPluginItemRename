@@ -1,0 +1,7 @@
+name: ItemRename
+version: ${project.version}
+main: me.user0481.itemrename.ItemRename
+api-version: 1.17
+prefix: itemRename
+authors: [ user0481 ]
+description: Item Rename for special token
