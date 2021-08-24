@@ -5,3 +5,7 @@ api-version: 1.17
 prefix: itemRename
 authors: [ user0481 ]
 description: Item Rename for special token
+commands:
+  pervadinti:
+    description: Keitimo lapuko panaudojimas item'o pervadinimui
+    usage: /<command>
