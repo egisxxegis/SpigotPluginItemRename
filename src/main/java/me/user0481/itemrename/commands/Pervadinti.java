@@ -35,7 +35,14 @@ public class Pervadinti implements CommandExecutor {
             return true;
         }
 
-        Inventory dialogInventory = Bukkit.createInventory(player,9,"Keitimo lapuko naudojimas");
+        Inventory dialogInventory   = Bukkit.createInventory(player,9,"Keitimo lapuko naudojimas");
+        ItemStack dialogYes         = new ItemStack(Material.GREEN_WOOL,1);
+        ItemStack dialogNo          = new ItemStack(Material.RED_WOOL,1);
+
+        for(int i=0; i<=3; dialogInventory.setItem(i++,dialogYes));
+        dialogInventory.setItem(4,player.getInventory().getItemInMainHand());
+        for(int i=5; i<=8; dialogInventory.setItem(i++,dialogNo));
+
 
         player.openInventory(dialogInventory);
 
