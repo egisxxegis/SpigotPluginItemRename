@@ -1,6 +1,8 @@
 package me.user0481.itemrename.commands;
 
 import me.user0481.itemrename.Formatter;
+import me.user0481.itemrename.config.Config;
+import me.user0481.itemrename.config.StaticConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -38,9 +40,12 @@ public class Pervadinti implements CommandExecutor {
             return true;
         }
 
+        Config config = new StaticConfig();
+
         Inventory dialogInventory   = Bukkit.createInventory(player,9,"Keitimo lapuko naudojimas");
-        ItemStack dialogYes         = new ItemStack(Material.GREEN_WOOL,1);
-        ItemStack dialogNo          = new ItemStack(Material.RED_WOOL,1);
+        ItemStack dialogYes         = new ItemStack(config.getGUIMaterialYes(),1);
+        ItemStack dialogNo          = new ItemStack(config.getGUIMaterialNo(),1);
+
 
         ItemMeta yesMeta = dialogYes.getItemMeta();
         yesMeta.setDisplayName(ChatColor.DARK_GREEN + "Pirkti");
