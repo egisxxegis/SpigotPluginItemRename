@@ -30,17 +30,15 @@ public class InventoryClickEvent implements Listener {
         e.setCancelled(true);
         if (item.getType() == config.getGUINoMaterial()) {
             player.closeInventory();
-            player.sendMessage(Formatter.formatMessage(ChatColor.RED + "Pervadinimas atšauktas."));
+            player.sendMessage(Formatter.formatError("Pervadinimas atšauktas."));
         } else if (item.getType() == config.getGUIYesMaterial()) {
             player.closeInventory();
             PervadintiHandler handler = new PervadintiHandler(player);
-            if (!handler.hasPriceItem()) {
+            if (!handler.takePriceItem()) {
                 player.sendMessage(Formatter.formatError(handler.getLastError()));
                 return ;
             }
-            //remove keitimo lapukas from inventory
-            //remove item from inventory
-            e.getWhoClicked().sendMessage(Formatter.formatMessage(ChatColor.RED + "Pervadinimas vykdomas."));
+            e.getWhoClicked().sendMessage(Formatter.formatMessage("Pervadinimas vykdomas."));
         }
 
     }

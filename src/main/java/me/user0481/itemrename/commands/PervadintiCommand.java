@@ -3,6 +3,7 @@ package me.user0481.itemrename.commands;
 import me.user0481.itemrename.Formatter;
 import me.user0481.itemrename.config.Config;
 import me.user0481.itemrename.config.ConfigFactory;
+import me.user0481.itemrename.handler.PervadintiHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -33,6 +34,11 @@ public class PervadintiCommand implements CommandExecutor {
         }
 
         Config config = ConfigFactory.getConfig();
+        PervadintiHandler handler = new PervadintiHandler(player);
+        if (!handler.isItemValid(player.getInventory().getItemInMainHand())) {
+            player.sendMessage(Formatter.formatError(handler.getLastError()));
+            return true;
+        }
 
         Inventory dialogInventory   = Bukkit.createInventory(player,9,config.getGUITitle());
         ItemStack dialogYes         = new ItemStack(config.getGUIYesMaterial(),1);

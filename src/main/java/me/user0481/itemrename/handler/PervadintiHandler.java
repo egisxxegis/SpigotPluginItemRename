@@ -23,6 +23,10 @@ public class PervadintiHandler {
             setLastError("Pervadinti gali tik vieną daiktą. Norėjai pervadinti " + chosenItem.getAmount() + " daiktus.");
             return false;
         }
+        if (chosenItem.getItemMeta().getDisplayName().equals(config.getPriceItemTitle())) {
+            setLastError("Pervadinti šito daikto negali. Paimk į ranką kitą daiktą.");
+            return false;
+        }
         return true;
     }
 
@@ -61,6 +65,25 @@ public class PervadintiHandler {
         else {
             return true;
         }
+    }
+
+    public boolean takePriceItem() {
+        int index = findIndexOfPriceItem();
+        if (index < 0) {
+            setLastError("Tu neturi daikto " + config.getPriceItemTitle() + ChatColor.RED + ".");
+            return false;
+        }
+
+        ItemStack priceItem = player.getInventory().getItem(index);
+        if (priceItem.getAmount() > 1 ) {
+            priceItem.setAmount(priceItem.getAmount() - 1);
+            player.getInventory().setItem(index,priceItem);
+            return true;
+        } else {
+            player.getInventory().setItem(index,new ItemStack(Material.AIR));
+            return true;
+        }
+
     }
 
     public String getLastError() {
