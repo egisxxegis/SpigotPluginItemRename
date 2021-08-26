@@ -5,4 +5,5 @@ import org.bukkit.Material;
 public interface Config {
     Material getGUIMaterialYes();
     Material getGUIMaterialNo();
+    String getGUITitle();
 }

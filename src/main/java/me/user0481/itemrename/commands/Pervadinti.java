@@ -42,10 +42,9 @@ public class Pervadinti implements CommandExecutor {
 
         Config config = new StaticConfig();
 
-        Inventory dialogInventory   = Bukkit.createInventory(player,9,"Keitimo lapuko naudojimas");
+        Inventory dialogInventory   = Bukkit.createInventory(player,9,config.getGUITitle());
         ItemStack dialogYes         = new ItemStack(config.getGUIMaterialYes(),1);
         ItemStack dialogNo          = new ItemStack(config.getGUIMaterialNo(),1);
-
 
         ItemMeta yesMeta = dialogYes.getItemMeta();
         yesMeta.setDisplayName(ChatColor.DARK_GREEN + "Pirkti");
