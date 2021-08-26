@@ -1,5 +1,6 @@
 package me.user0481.itemrename.handler;
 
+import me.user0481.itemrename.Formatter;
 import me.user0481.itemrename.config.Config;
 import me.user0481.itemrename.config.ConfigFactory;
 import org.bukkit.ChatColor;
@@ -8,17 +9,33 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 public class PervadintiHandler {
 
     private final Player player;
     private final Config config = ConfigFactory.getConfig();
+    private static HashMap<Player, ItemStack> playerItemMap = new LinkedHashMap<>();
     private String lastError = "";
 
     public PervadintiHandler(Player player){
+
+        this(player,false);
+    }
+
+    public PervadintiHandler(Player player, boolean register) {
         this.player = player;
+        if (register)
+            registerOriginalItem(player.getInventory().getItemInMainHand());
+
     }
 
     public boolean isItemValid(ItemStack chosenItem) {
+        if (chosenItem == null || chosenItem.getType() == Material.AIR) {
+            setLastError("Tuščios rankos negali pervadinti. Pasiimk kokį nors daiktą į ranką.");
+            return false;
+        }
         if (chosenItem.getAmount() > 1) {
             setLastError("Pervadinti gali tik vieną daiktą. Norėjai pervadinti " + chosenItem.getAmount() + " daiktus.");
             return false;
@@ -84,6 +101,55 @@ public class PervadintiHandler {
             return true;
         }
 
+    }
+
+    public ItemStack renameItem(ItemStack item, String[] arrayOfStrings) {
+        return renameItem(item, String.join(" ",arrayOfStrings));
+    }
+
+    public ItemStack renameItem(ItemStack item, String name) {
+        ItemStack clonedItem = item.clone();
+        item = clonedItem;
+        ItemMeta itemMeta = item.getItemMeta();
+        itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&',name));
+        item.setItemMeta(itemMeta);
+        return item;
+    }
+
+    private void registerOriginalItem(ItemStack item) {
+        playerItemMap.put(player,item);
+        System.out.println(Formatter.formatMessage("Registered " + player.getDisplayName()));
+    }
+
+    private void unregisterOriginalItem(){
+        playerItemMap.remove(player);
+        System.out.println(Formatter.formatMessage("Unregistered " + player.getDisplayName()));
+    }
+
+    public void releaseHandler() {
+        unregisterOriginalItem();
+    }
+
+    public ItemStack getOriginalItem() {
+        return playerItemMap.get(player);
+    }
+
+    public boolean takeAwayOriginalItem() {
+        ItemStack originalItem = getOriginalItem();
+        if (!player.getInventory().contains(originalItem)) {
+            setLastError("Kur pametei daiktą, kurį nori pervadinti?");
+            return false;
+        }
+        player.getInventory().remove(originalItem);
+        if (player.getInventory().getItemInMainHand().equals(originalItem)) {
+            setLastError("Nepavyko pervadinti - seno daikto neradau.");
+            return false;
+        }
+        return true;
+    }
+
+    public void giveNewItem(ItemStack item) {
+        player.getInventory().addItem(item);
     }
 
     public String getLastError() {

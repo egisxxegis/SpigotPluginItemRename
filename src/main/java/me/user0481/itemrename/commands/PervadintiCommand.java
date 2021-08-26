@@ -34,9 +34,10 @@ public class PervadintiCommand implements CommandExecutor {
         }
 
         Config config = ConfigFactory.getConfig();
-        PervadintiHandler handler = new PervadintiHandler(player);
+        PervadintiHandler handler = new PervadintiHandler(player,true);
         if (!handler.isItemValid(player.getInventory().getItemInMainHand())) {
             player.sendMessage(Formatter.formatError(handler.getLastError()));
+            handler.releaseHandler();
             return true;
         }
 
@@ -63,9 +64,12 @@ public class PervadintiCommand implements CommandExecutor {
         noMeta.setLore(noLore);
         dialogNo.setItemMeta(noMeta);
 
-        int mainItemIndex = 4;
+        ItemStack handItem = player.getInventory().getItemInMainHand();
+        ItemStack renamedItem = handler.renameItem(handItem,args);
+
+        int mainItemIndex = config.getGUIMainItemIndex();
         for(int i=0; i<=mainItemIndex-1; dialogInventory.setItem(i++,dialogYes));
-        dialogInventory.setItem(mainItemIndex,player.getInventory().getItemInMainHand());
+        dialogInventory.setItem(mainItemIndex,renamedItem);
         for(int i=mainItemIndex+1; i<=8; dialogInventory.setItem(i++,dialogNo));
 
 

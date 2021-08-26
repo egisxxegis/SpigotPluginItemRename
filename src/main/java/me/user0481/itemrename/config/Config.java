@@ -6,6 +6,7 @@ public interface Config {
     Material getGUIYesMaterial();
     Material getGUINoMaterial();
     String getGUITitle();
+    int getGUIMainItemIndex();
     Material getPriceItemMaterial();
     String getPriceItemTitle();
 }

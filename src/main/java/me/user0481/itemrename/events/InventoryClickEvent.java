@@ -28,17 +28,29 @@ public class InventoryClickEvent implements Listener {
         Player player = (Player) e.getWhoClicked();
 
         e.setCancelled(true);
+        PervadintiHandler handler = new PervadintiHandler(player);
+
+        //NO
         if (item.getType() == config.getGUINoMaterial()) {
             player.closeInventory();
             player.sendMessage(Formatter.formatError("Pervadinimas atšauktas."));
+            handler.releaseHandler();
+
+        //YES
         } else if (item.getType() == config.getGUIYesMaterial()) {
             player.closeInventory();
-            PervadintiHandler handler = new PervadintiHandler(player);
+            handler.releaseHandler();
             if (!handler.takePriceItem()) {
                 player.sendMessage(Formatter.formatError(handler.getLastError()));
                 return ;
             }
-            e.getWhoClicked().sendMessage(Formatter.formatMessage("Pervadinimas vykdomas."));
+            if (!handler.takeAwayOriginalItem()) {
+                player.sendMessage(Formatter.formatError(handler.getLastError()));
+                //return back priceItem
+                return;
+            }
+            handler.giveNewItem(e.getClickedInventory().getItem(config.getGUIMainItemIndex()));
+            player.sendMessage(Formatter.formatMessage("Daiktas pervadintas."));
         }
 
     }

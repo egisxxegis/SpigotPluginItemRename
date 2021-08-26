@@ -21,6 +21,11 @@ class StaticConfig implements Config{
     }
 
     @Override
+    public int getGUIMainItemIndex() {
+        return 4;
+    }
+
+    @Override
     public Material getPriceItemMaterial() {
         return Material.PAPER;
     }
