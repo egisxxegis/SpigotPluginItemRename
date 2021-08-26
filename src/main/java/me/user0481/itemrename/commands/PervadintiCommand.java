@@ -2,7 +2,8 @@ package me.user0481.itemrename.commands;
 
 import me.user0481.itemrename.Formatter;
 import me.user0481.itemrename.config.Config;
-import me.user0481.itemrename.config.StaticConfig;
+import me.user0481.itemrename.config.ConfigFactory;
+import me.user0481.itemrename.handler.PervadintiHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -23,12 +24,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 
-public class Pervadinti implements CommandExecutor {
+public class PervadintiCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            System.out.println(Formatter.formatMessage("/pervadinti gali naudoti tik žaidėjai.") );
+            System.out.println(Formatter.formatError("/pervadinti gali naudoti tik žaidėjai.") );
             return false;
         }
 
@@ -36,11 +37,11 @@ public class Pervadinti implements CommandExecutor {
         if (player.hasPermission("ItemRename.pervadinti") )
             player.sendMessage(Formatter.formatMessage("Panaudojai keitimo lapukų komandą.") );
         else {
-            player.sendMessage(Formatter.formatMessage("Neturi permission'ų naudotis keitimo lapukų komanda."));
+            player.sendMessage(Formatter.formatError("Neturi permission'ų naudotis keitimo lapukų komanda."));
             return true;
         }
 
-        Config config = new StaticConfig();
+        Config config = ConfigFactory.getConfig();
 
         Inventory dialogInventory   = Bukkit.createInventory(player,9,config.getGUITitle());
         ItemStack dialogYes         = new ItemStack(config.getGUIMaterialYes(),1);
@@ -51,7 +52,7 @@ public class Pervadinti implements CommandExecutor {
         ArrayList<String> yesLore = new ArrayList<>();
         yesLore.add(ChatColor.GOLD + "Pirkti daikto");
         yesLore.add(ChatColor.GOLD + "pervadinimą.");
-        yesLore.add(ChatColor.GOLD + "Kaina: " + ChatColor.RED + "1 Keitimo lapelis" + ChatColor.GOLD + ".");
+        yesLore.add(ChatColor.GOLD + "Kaina: " + ChatColor.RED + "1 " + config.getPriceItemTitle() + ChatColor.GOLD + ".");
         yesMeta.setLore(yesLore);
         dialogYes.setItemMeta(yesMeta);
 
@@ -60,7 +61,7 @@ public class Pervadinti implements CommandExecutor {
         ArrayList<String> noLore = new ArrayList<>();
         noLore.add(ChatColor.GOLD + "Atšaukti daikto");
         noLore.add(ChatColor.GOLD + "pervadinimą.");
-        noLore.add(ChatColor.GOLD + "Keitimo lapelis nebus");
+        noLore.add(config.getPriceItemTitle() + ChatColor.GOLD + " nebus");
         noLore.add(ChatColor.GOLD + "panaudotas");
         noMeta.setLore(noLore);
         dialogNo.setItemMeta(noMeta);

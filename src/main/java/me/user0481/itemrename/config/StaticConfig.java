@@ -3,7 +3,7 @@ package me.user0481.itemrename.config;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-public class StaticConfig implements Config{
+class StaticConfig implements Config{
 
     @Override
     public Material getGUIMaterialYes() {
@@ -18,6 +18,11 @@ public class StaticConfig implements Config{
     @Override
     public String getGUITitle() {
         return ChatColor.AQUA + "|" + ChatColor.DARK_GREEN + " " + ChatColor.RESET + "Keitimo lapuko naudojimas" + ChatColor.AQUA + " |";
+    }
+
+    @Override
+    public String getPriceItemTitle() {
+        return ChatColor.GOLD + "Keitimo Lapukas";
     }
 
 }
