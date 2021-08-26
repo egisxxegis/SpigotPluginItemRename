@@ -33,6 +33,11 @@ public class PervadintiCommand implements CommandExecutor {
             return true;
         }
 
+        if (args == null || args.length < 1) {
+            player.sendMessage(Formatter.formatMessage("Komandos naudojimas: "+ ChatColor.RED + "/pervadinti naujasDaiktoVardas"));
+            return true;
+        }
+
         Config config = ConfigFactory.getConfig();
         PervadintiHandler handler = new PervadintiHandler(player,true);
         if (!handler.isItemValid(player.getInventory().getItemInMainHand())) {
