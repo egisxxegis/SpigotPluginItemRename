@@ -5,8 +5,6 @@ import me.user0481.itemrename.config.Config;
 import me.user0481.itemrename.config.ConfigFactory;
 import me.user0481.itemrename.handler.PervadintiHandler;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,12 +25,13 @@ public class InventoryClickEvent implements Listener {
         if (item == null)
             return;
 
+        Player player = (Player) e.getWhoClicked();
+
         e.setCancelled(true);
-        if (item.getType() == config.getGUIMaterialNo()) {
-            e.getWhoClicked().closeInventory();
-            e.getWhoClicked().sendMessage(Formatter.formatMessage(ChatColor.RED + "Pervadinimas atšauktas."));
-        } else if (item.getType() == config.getGUIMaterialYes()) {
-            Player player = (Player) e.getWhoClicked();
+        if (item.getType() == config.getGUINoMaterial()) {
+            player.closeInventory();
+            player.sendMessage(Formatter.formatMessage(ChatColor.RED + "Pervadinimas atšauktas."));
+        } else if (item.getType() == config.getGUIYesMaterial()) {
             player.closeInventory();
             PervadintiHandler handler = new PervadintiHandler(player);
             if (!handler.hasPriceItem()) {

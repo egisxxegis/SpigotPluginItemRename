@@ -27,23 +27,39 @@ public class PervadintiHandler {
     }
 
     private ItemStack getPriceItem() {
-        ItemStack priceItem = new ItemStack(Material.PAPER);
+        ItemStack priceItem = new ItemStack(config.getPriceItemMaterial());
         ItemMeta piMeta = priceItem.getItemMeta();
         piMeta.setDisplayName(config.getPriceItemTitle());
         priceItem.setItemMeta(piMeta);
         return priceItem;
     }
 
+    private int findIndexOfPriceItem() {
+        int toReturn = -1;
+        ItemStack[] items = player.getInventory().getStorageContents();
+        for (int i=0; i<items.length; i++) {
+            ItemStack item = items[i];
+            if (item == null)
+                continue;
+            if (item.getType() != config.getPriceItemMaterial())
+                continue;
+            if (item.getItemMeta().getDisplayName().equals(config.getPriceItemTitle())) {
+                return i;
+            }
+        }
+        return toReturn;
+    }
+
     public boolean hasPriceItem() {
 
-        ItemStack priceItem = getPriceItem();
+        int index = findIndexOfPriceItem();
 
-        if (player.getInventory().contains(priceItem)) {
-            return true;
-        }
-        else {
+        if (index < 0) {
             setLastError("Tu neturi daikto " + config.getPriceItemTitle() + ChatColor.RED + ".");
             return false;
+        }
+        else {
+            return true;
         }
     }
 

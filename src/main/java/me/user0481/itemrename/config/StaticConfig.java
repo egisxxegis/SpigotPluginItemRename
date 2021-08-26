@@ -6,18 +6,23 @@ import org.bukkit.Material;
 class StaticConfig implements Config{
 
     @Override
-    public Material getGUIMaterialYes() {
+    public Material getGUIYesMaterial() {
         return Material.GREEN_WOOL;
     }
 
     @Override
-    public Material getGUIMaterialNo() {
+    public Material getGUINoMaterial() {
         return Material.RED_WOOL;
     }
 
     @Override
     public String getGUITitle() {
         return ChatColor.AQUA + "|" + ChatColor.DARK_GREEN + " " + ChatColor.RESET + "Keitimo lapuko naudojimas" + ChatColor.AQUA + " |";
+    }
+
+    @Override
+    public Material getPriceItemMaterial() {
+        return Material.PAPER;
     }
 
     @Override

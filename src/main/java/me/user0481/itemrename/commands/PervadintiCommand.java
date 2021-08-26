@@ -3,26 +3,17 @@ package me.user0481.itemrename.commands;
 import me.user0481.itemrename.Formatter;
 import me.user0481.itemrename.config.Config;
 import me.user0481.itemrename.config.ConfigFactory;
-import me.user0481.itemrename.handler.PervadintiHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
 
 public class PervadintiCommand implements CommandExecutor {
     @Override
@@ -44,8 +35,8 @@ public class PervadintiCommand implements CommandExecutor {
         Config config = ConfigFactory.getConfig();
 
         Inventory dialogInventory   = Bukkit.createInventory(player,9,config.getGUITitle());
-        ItemStack dialogYes         = new ItemStack(config.getGUIMaterialYes(),1);
-        ItemStack dialogNo          = new ItemStack(config.getGUIMaterialNo(),1);
+        ItemStack dialogYes         = new ItemStack(config.getGUIYesMaterial(),1);
+        ItemStack dialogNo          = new ItemStack(config.getGUINoMaterial(),1);
 
         ItemMeta yesMeta = dialogYes.getItemMeta();
         yesMeta.setDisplayName(ChatColor.DARK_GREEN + "Pirkti");
