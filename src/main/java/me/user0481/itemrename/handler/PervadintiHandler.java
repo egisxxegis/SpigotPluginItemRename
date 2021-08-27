@@ -16,7 +16,7 @@ public class PervadintiHandler {
 
     private final Player player;
     private final Config config = ConfigFactory.getConfig();
-    private static HashMap<Player, ItemStack> playerItemMap = new LinkedHashMap<>();
+    private final static HashMap<Player, ItemStack> playerItemMap = new LinkedHashMap<>();
     private String lastError = "";
 
     public PervadintiHandler(Player player){
@@ -84,22 +84,23 @@ public class PervadintiHandler {
         }
     }
 
-    public boolean takePriceItem() {
+    public ItemStack takePriceItem() {
         int index = findIndexOfPriceItem();
         if (index < 0) {
             setLastError("Tu neturi daikto " + config.getPriceItemTitle() + ChatColor.RED + ".");
-            return false;
+            return new ItemStack(Material.AIR,1);
         }
 
         ItemStack priceItem = player.getInventory().getItem(index);
         if (priceItem.getAmount() > 1 ) {
             priceItem.setAmount(priceItem.getAmount() - 1);
             player.getInventory().setItem(index,priceItem);
-            return true;
+
         } else {
             player.getInventory().setItem(index,new ItemStack(Material.AIR));
-            return true;
         }
+        priceItem.setAmount(1);
+        return priceItem;
 
     }
 
@@ -108,8 +109,7 @@ public class PervadintiHandler {
     }
 
     public ItemStack renameItem(ItemStack item, String name) {
-        ItemStack clonedItem = item.clone();
-        item = clonedItem;
+        item = item.clone();
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&',name));
         item.setItemMeta(itemMeta);
@@ -118,12 +118,12 @@ public class PervadintiHandler {
 
     private void registerOriginalItem(ItemStack item) {
         playerItemMap.put(player,item);
-        System.out.println(Formatter.formatMessage("Registered " + player.getDisplayName()));
+//        System.out.println(Formatter.formatMessage("Registered " + player.getDisplayName()));
     }
 
     private void unregisterOriginalItem(){
         playerItemMap.remove(player);
-        System.out.println(Formatter.formatMessage("Unregistered " + player.getDisplayName()));
+//        System.out.println(Formatter.formatMessage("Unregistered " + player.getDisplayName()));
     }
 
     public void releaseHandler() {
@@ -137,10 +137,12 @@ public class PervadintiHandler {
     public boolean takeAwayOriginalItem() {
         ItemStack originalItem = getOriginalItem();
         if (!player.getInventory().contains(originalItem)) {
+            System.out.println("Nerastas daiktas. type:" + originalItem.getType() + "; vardas: " + originalItem.getItemMeta().getDisplayName() + "; kiekis: " + originalItem.getAmount() + "; hashCode: " + originalItem.hashCode());
             setLastError("Kur pametei daiktą, kurį nori pervadinti?");
             return false;
         }
-        player.getInventory().remove(originalItem);
+        int heldItemIndex = player.getInventory().getHeldItemSlot();
+        player.getInventory().setItem(heldItemIndex,new ItemStack(Material.AIR));
         if (player.getInventory().getItemInMainHand().equals(originalItem)) {
             setLastError("Nepavyko pervadinti - seno daikto neradau.");
             return false;

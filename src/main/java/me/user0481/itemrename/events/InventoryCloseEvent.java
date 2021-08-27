@@ -20,7 +20,6 @@ public class InventoryCloseEvent implements Listener {
         Player player = (Player) e.getPlayer();
         PervadintiHandler handler = new PervadintiHandler(player);
         handler.releaseHandler();
-        player.sendMessage(Formatter.formatMessage("Pervadinimas atšauktas."));
 
     }
 }

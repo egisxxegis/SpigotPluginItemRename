@@ -35,22 +35,24 @@ public class InventoryClickEvent implements Listener {
             player.closeInventory();
             player.sendMessage(Formatter.formatError("Pervadinimas atšauktas."));
             handler.releaseHandler();
-
+            return;
         //YES
         } else if (item.getType() == config.getGUIYesMaterial()) {
-            player.closeInventory();
-            handler.releaseHandler();
-            if (!handler.takePriceItem()) {
+            ItemStack takenPriceItem = handler.takePriceItem();
+            if (takenPriceItem == null) {
                 player.sendMessage(Formatter.formatError(handler.getLastError()));
+                player.closeInventory();
                 return ;
             }
             if (!handler.takeAwayOriginalItem()) {
                 player.sendMessage(Formatter.formatError(handler.getLastError()));
-                //return back priceItem
+                player.getInventory().addItem(takenPriceItem);
+                player.closeInventory();
                 return;
             }
             handler.giveNewItem(e.getClickedInventory().getItem(config.getGUIMainItemIndex()));
             player.sendMessage(Formatter.formatMessage("Daiktas pervadintas."));
+            player.closeInventory();
         }
 
     }
