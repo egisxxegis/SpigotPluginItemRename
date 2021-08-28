@@ -171,7 +171,7 @@ public class PervadintiHandler {
 
     public boolean isItemNameOfValidLength(String name) {
         int length = ConfigFactory.getConfig().getItemMaxAllowedLength();
-        if (name != null && (name.length() <= length)) {
+        if (name != null && (name.length() > length)) {
             setLastError("Norimas item vardas viršijo " + length + " simbolių limitą. Tavo duoto item vardo ilgis buvo " + name.length() + ".");
             return false;
         }
