@@ -40,7 +40,8 @@ public class PervadintiCommand implements CommandExecutor {
 
         Config config = ConfigFactory.getConfig();
         PervadintiHandler handler = new PervadintiHandler(player,true);
-        if (!handler.isItemValid(player.getInventory().getItemInMainHand())) {
+        if (!handler.isItemValid(player.getInventory().getItemInMainHand())
+        ||  !handler.isItemNameOfValidLength(args)) {
             player.sendMessage(Formatter.formatError(handler.getLastError()));
             handler.releaseHandler();
             return true;

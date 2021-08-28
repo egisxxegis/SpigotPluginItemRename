@@ -9,4 +9,5 @@ public interface Config {
     int getGUIMainItemIndex();
     Material getPriceItemMaterial();
     String getPriceItemTitle();
+    int getItemMaxAllowedLength();
 }

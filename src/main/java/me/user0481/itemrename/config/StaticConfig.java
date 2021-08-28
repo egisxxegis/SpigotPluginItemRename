@@ -35,4 +35,10 @@ class StaticConfig implements Config{
         return ChatColor.GOLD + "Keitimo Lapukas";
     }
 
+    @Override
+    public int getItemMaxAllowedLength() {
+        return 45;
+    }
+
+
 }

@@ -1,6 +1,5 @@
 package me.user0481.itemrename.handler;
 
-import me.user0481.itemrename.Formatter;
 import me.user0481.itemrename.config.Config;
 import me.user0481.itemrename.config.ConfigFactory;
 import org.bukkit.ChatColor;
@@ -141,6 +140,10 @@ public class PervadintiHandler {
             setLastError("Kur pametei daiktą, kurį nori pervadinti?");
             return false;
         }
+        if (player.getInventory().getItemInMainHand().getAmount() > 1) {
+            setLastError("Pervadinimo metu gavai daiktų. Bandyk per naujo tą pačią komandą.");
+            return false;
+        }
         int heldItemIndex = player.getInventory().getHeldItemSlot();
         player.getInventory().setItem(heldItemIndex,new ItemStack(Material.AIR));
         if (player.getInventory().getItemInMainHand().equals(originalItem)) {
@@ -160,6 +163,19 @@ public class PervadintiHandler {
 
     private void setLastError(String toWhat) {
         this.lastError = toWhat;
+    }
+
+    public boolean isItemNameOfValidLength(String[] args) {
+        return isItemNameOfValidLength(String.join(" ",args));
+    }
+
+    public boolean isItemNameOfValidLength(String name) {
+        int length = ConfigFactory.getConfig().getItemMaxAllowedLength();
+        if (name != null && (name.length() <= length)) {
+            setLastError("Norimas item vardas viršijo " + length + " simbolių limitą. Tavo duoto item vardo ilgis buvo " + name.length() + ".");
+            return false;
+        }
+        return true;
     }
 
 }
