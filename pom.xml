@@ -6,7 +6,7 @@
 
     <groupId>me.user0481</groupId>
     <artifactId>itemRename</artifactId>
-    <version>1.17.1.04</version>
+    <version>1.17.1.05</version>
     <packaging>jar</packaging>
 
     <name>ItemRename</name>
