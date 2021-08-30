@@ -5,6 +5,7 @@ import me.user0481.itemrename.config.Config;
 import me.user0481.itemrename.config.ConfigFactory;
 import me.user0481.itemrename.handler.PervadintiHandler;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,7 +40,7 @@ public class InventoryClickEvent implements Listener {
         //YES
         } else if (item.getType() == config.getGUIYesMaterial()) {
             ItemStack takenPriceItem = handler.takePriceItem();
-            if (takenPriceItem == null) {
+            if (takenPriceItem == null || takenPriceItem.getType() == Material.AIR) {
                 player.sendMessage(Formatter.formatError(handler.getLastError()));
                 player.closeInventory();
                 return ;
